@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{C62754CA-13BF-4427-BECD-856CA791CEC6}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Users\Huang Yanwei\Desktop\huangyanwei\poseTracking\include;E:\eigen-3.4.0;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\manif\algorithms\average.h" />
+    <ClInclude Include="include\manif\algorithms\bezier.h" />
+    <ClInclude Include="include\manif\algorithms\decasteljau.h" />
+    <ClInclude Include="include\manif\algorithms\interpolation.h" />
+    <ClInclude Include="include\manif\autodiff\autodiff.h" />
+    <ClInclude Include="include\manif\autodiff\constants.h" />
+    <ClInclude Include="include\manif\autodiff\local_parameterization.h" />
+    <ClInclude Include="include\manif\Bundle.h" />
+    <ClInclude Include="include\manif\ceres\ceres.h" />
+    <ClInclude Include="include\manif\ceres\ceres_utils.h" />
+    <ClInclude Include="include\manif\ceres\constants.h" />
+    <ClInclude Include="include\manif\ceres\constraint.h" />
+    <ClInclude Include="include\manif\ceres\local_parametrization.h" />
+    <ClInclude Include="include\manif\ceres\objective.h" />
+    <ClInclude Include="include\manif\constants.h" />
+    <ClInclude Include="include\manif\functions.h" />
+    <ClInclude Include="include\manif\impl\assignment_assert.h" />
+    <ClInclude Include="include\manif\impl\bundle\Bundle.h" />
+    <ClInclude Include="include\manif\impl\bundle\BundleTangent.h" />
+    <ClInclude Include="include\manif\impl\bundle\BundleTangent_base.h" />
+    <ClInclude Include="include\manif\impl\bundle\BundleTangent_map.h" />
+    <ClInclude Include="include\manif\impl\bundle\Bundle_base.h" />
+    <ClInclude Include="include\manif\impl\bundle\Bundle_map.h" />
+    <ClInclude Include="include\manif\impl\bundle\Bundle_properties.h" />
+    <ClInclude Include="include\manif\impl\eigen.h" />
+    <ClInclude Include="include\manif\impl\generator.h" />
+    <ClInclude Include="include\manif\impl\lie_group_base.h" />
+    <ClInclude Include="include\manif\impl\macro.h" />
+    <ClInclude Include="include\manif\impl\random.h" />
+    <ClInclude Include="include\manif\impl\rn\Rn.h" />
+    <ClInclude Include="include\manif\impl\rn\RnTangent.h" />
+    <ClInclude Include="include\manif\impl\rn\RnTangent_base.h" />
+    <ClInclude Include="include\manif\impl\rn\RnTangent_map.h" />
+    <ClInclude Include="include\manif\impl\rn\Rn_base.h" />
+    <ClInclude Include="include\manif\impl\rn\Rn_map.h" />
+    <ClInclude Include="include\manif\impl\rn\Rn_properties.h" />
+    <ClInclude Include="include\manif\impl\se2\SE2.h" />
+    <ClInclude Include="include\manif\impl\se2\SE2Tangent.h" />
+    <ClInclude Include="include\manif\impl\se2\SE2Tangent_base.h" />
+    <ClInclude Include="include\manif\impl\se2\SE2Tangent_map.h" />
+    <ClInclude Include="include\manif\impl\se2\SE2_base.h" />
+    <ClInclude Include="include\manif\impl\se2\SE2_map.h" />
+    <ClInclude Include="include\manif\impl\se2\SE2_properties.h" />
+    <ClInclude Include="include\manif\impl\se3\SE3.h" />
+    <ClInclude Include="include\manif\impl\se3\SE3Tangent.h" />
+    <ClInclude Include="include\manif\impl\se3\SE3Tangent_base.h" />
+    <ClInclude Include="include\manif\impl\se3\SE3Tangent_map.h" />
+    <ClInclude Include="include\manif\impl\se3\SE3_base.h" />
+    <ClInclude Include="include\manif\impl\se3\SE3_map.h" />
+    <ClInclude Include="include\manif\impl\se3\SE3_properties.h" />
+    <ClInclude Include="include\manif\impl\se_2_3\SE_2_3.h" />
+    <ClInclude Include="include\manif\impl\se_2_3\SE_2_3Tangent.h" />
+    <ClInclude Include="include\manif\impl\se_2_3\SE_2_3Tangent_base.h" />
+    <ClInclude Include="include\manif\impl\se_2_3\SE_2_3Tangent_map.h" />
+    <ClInclude Include="include\manif\impl\se_2_3\SE_2_3_base.h" />
+    <ClInclude Include="include\manif\impl\se_2_3\SE_2_3_map.h" />
+    <ClInclude Include="include\manif\impl\se_2_3\SE_2_3_properties.h" />
+    <ClInclude Include="include\manif\impl\so2\SO2.h" />
+    <ClInclude Include="include\manif\impl\so2\SO2Tangent.h" />
+    <ClInclude Include="include\manif\impl\so2\SO2Tangent_base.h" />
+    <ClInclude Include="include\manif\impl\so2\SO2Tangent_map.h" />
+    <ClInclude Include="include\manif\impl\so2\SO2_base.h" />
+    <ClInclude Include="include\manif\impl\so2\SO2_map.h" />
+    <ClInclude Include="include\manif\impl\so2\SO2_properties.h" />
+    <ClInclude Include="include\manif\impl\so3\SO3.h" />
+    <ClInclude Include="include\manif\impl\so3\SO3Tangent.h" />
+    <ClInclude Include="include\manif\impl\so3\SO3Tangent_base.h" />
+    <ClInclude Include="include\manif\impl\so3\SO3Tangent_map.h" />
+    <ClInclude Include="include\manif\impl\so3\SO3_base.h" />
+    <ClInclude Include="include\manif\impl\so3\SO3_map.h" />
+    <ClInclude Include="include\manif\impl\so3\SO3_properties.h" />
+    <ClInclude Include="include\manif\impl\tangent_base.h" />
+    <ClInclude Include="include\manif\impl\traits.h" />
+    <ClInclude Include="include\manif\impl\utils.h" />
+    <ClInclude Include="include\manif\manif.h" />
+    <ClInclude Include="include\manif\Rn.h" />
+    <ClInclude Include="include\manif\SE2.h" />
+    <ClInclude Include="include\manif\SE3.h" />
+    <ClInclude Include="include\manif\SE_2_3.h" />
+    <ClInclude Include="include\manif\SO2.h" />
+    <ClInclude Include="include\manif\SO3.h" />
+    <ClInclude Include="include\se2_points_generator.h" />
+    <ClInclude Include="include\tl\optional.hpp" />
+    <ClInclude Include="out\build\x64-debug\cmakefiles\showincludes\foo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="out\build\x64-debug\cmakefiles\3.22.22011901-msvc_2\CMakeDetermineCompilerABI_C.bin" />
+    <None Include="out\build\x64-debug\cmakefiles\3.22.22011901-msvc_2\CMakeDetermineCompilerABI_CXX.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\imu_realtime_tracking.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
