@@ -1,0 +1,5 @@
+﻿/poseTracking/.vs
+/poseTracking/data/*
+/poseTracking/x64/*
+/poseTracking/Debug
+/imuService/x64/*
