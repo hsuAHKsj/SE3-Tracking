@@ -282,7 +282,7 @@
     <ClInclude Include="include\hansDriver\conciseController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hans\elfinKinematics.h">
+    <ClInclude Include="include\hansTracker\elfin_PoseTracker.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -298,17 +298,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\elfinKinematics.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\efin_PoseTracker.cpp">
+      <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="src\frames.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="src\utility.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\imuRobot_realtime_tracking_uniqueThread_PD.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\test_OOP.cpp">
+      <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,6 +2,9 @@
 #include <iostream>
 using namespace KDL;
 
+
+
+
 elfinKinematics::elfinKinematics()
 {
 	//0.208, 0.495, 0.1605, 0.455

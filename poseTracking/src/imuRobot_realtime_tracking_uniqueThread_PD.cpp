@@ -17,7 +17,7 @@
 #include <hansDriver/conciseController.h>
 
 #define PI (3.1415926535897932346f)
-#define RECORD_TIME 1500
+#define RECORD_TIME 5000
 
 
 double indServoTime = 0.05;
@@ -84,44 +84,6 @@ void save_time(std::string fileName, std::vector<double>& T_v)
     }
 }
 
-
-void data_interpreter(const imuDataPack& iData, manif::SE3d& pose, Eigen::Vector3d& ang_d, Eigen::Vector3d& ang_dd)
-{
-    // 获取角度
-    double psi = iData.angle[0] * PI / 180.;
-    //来自产品手册 产品测量角度是欧拉角的，欧拉角的旋转顺序书zyx顺序
-
-    double theta = iData.angle[1] * PI / 180.;
-    double phi = iData.angle[2] * PI / 180.;
-
-    //cout << " IMU Data : " << iData.angle[0] << ", " << iData.angle[1] << ", " << iData.angle[2] << endl;
-
-    // 姿态
-    Eigen::Matrix3d poseEi =
-        (Eigen::AngleAxisd(psi, Eigen::Vector3d::UnitX()).matrix() *
-            Eigen::AngleAxisd(theta, Eigen::Vector3d::UnitY()).matrix() *
-            Eigen::AngleAxisd(phi, Eigen::Vector3d::UnitZ()).matrix());
-
-    Eigen::Isometry3d poseIso = Eigen::Isometry3d::Identity();
-    poseIso.linear() = poseEi;
-    pose = manif::SE3d(poseIso);
-
-    // 将角速度转换成到全局坐标系中
-    Eigen::Matrix3d Eul2AngMat;
-    Eul2AngMat << 1, 0, -sin(theta),
-        0, cos(psi), sin(psi)* cos(theta),
-        0, -sin(psi), cos(psi)* cos(theta);
-    
-    Eigen::Vector3d eular_d(iData.w[0], iData.w[1], iData.w[2]);
-    Eigen::Vector3d eular_dd(iData.a[0], iData.a[1], iData.a[2]);
-
-
-    // 求解信息
-    ang_d =  poseEi * eular_d /180 *PI;
-    ang_dd = Eul2AngMat * eular_dd / 180 * PI;
-}
-
-
 // 带速度保持器的解释器
 void data_interpreter_state_keeper(const imuDataPack& iData, manif::SE3d& pose, Eigen::Vector3d& ang_d, Eigen::Vector3d& ang_dd, Eigen::Vector3d& real_ang_d)
 {
@@ -178,7 +140,6 @@ void data_interpreter_state_keeper(const imuDataPack& iData, manif::SE3d& pose, 
     }
 }
 
-
 // Gives back a rotation matrix specified with RPY convention
 Eigen::Vector3d GetRPY(Eigen::Isometry3d iso)
 {
@@ -217,9 +178,9 @@ int main()
     // 空置率参数
 
     // 对角速度，角加速度进行约束
-    double rot_vec_bound = 1;
-    double rot_acc_bound = 5;
-    double rot_jerk_bound = 50;
+    double rot_vec_bound = PI;
+    double rot_acc_bound = 3;
+    double rot_jerk_bound = 30;
 
     //////////////// 数据采集线程 /////////////////
     
@@ -227,7 +188,7 @@ int main()
     thread thread_IMU(imu_record_pose_info);
    
     /////////////// 连接机器人，运动到初始位姿 ///////////////
-    HRIF_Connect(0, "10.0.0.49", 10003);
+    HRIF_Connect(0, "10.0.0.24", 10003);
     // 新建控制
     conciseRobotController elfin;
     // 先运动到指定目标位置
@@ -235,8 +196,12 @@ int main()
 
     elfin.moveJ(initJoint, 360, 50);
 
+    // 获取TCP位置
+    EcRealVector tcp;
+    elfin.getTCP(tcp);
+
     /////////////// 获取IMU和机器人的初始位姿，并计算补偿位姿 ///////////////
-    elfin.readPcsPos(initPcsPos);
+    elfin.readPcsPos(initPcsPos); // 获取的是设置的默认TCP的位姿
     manif::SE3d robInitPose(0, 0, 0, initPcsPos[3] * PI / 180, initPcsPos[4] * PI / 180, initPcsPos[5] * PI / 180);
 
     // 获取imu初始位姿
@@ -299,7 +264,7 @@ int main()
     {
         //////////////// 下发 servoP 指令 /////////////////
         double count_tick = clock();
-        cout << elfin.servoP(poseWaitForSend) << endl;
+        cout << elfin.servoP(poseWaitForSend, tcp) << endl;
         elfin.readPcsPos(robo_pose);
 
         manif::SE3d roboPoseSE3 = manif::SE3d(0, 0, 0, robo_pose[3] * PI / 180, robo_pose[4] * PI / 180, robo_pose[5] * PI / 180)* imuCompensate.inverse();
@@ -358,9 +323,6 @@ int main()
 
         angel_d.ang() = ang_d_diff - se3_vel_t_1.ang();
         angel_dd.ang() = ang_dd_diff - se3_acc_t_1.ang();
-
-        // 计算误差的积分项
-
 
         double k_p = 2;
         double k_v = 0.5;
@@ -549,24 +511,3 @@ void saveHardwarePath(std::string fileName, std::vector<manif::SE3d> SE3_path, v
             << time.at(i) << "\n";
     }
 }
-
-//Eigen::Matrix3d R_d = tar_pose.rotation();
-//Eigen::Matrix3d R = se3_pos.rotation();
-//Eigen::Vector3d omega_d = imu_vel.ang();
-//Eigen::Vector3d omega = se3_vel_t_1.ang();
-//Eigen::Vector3d e_omega = omega - R.transpose() * R_d * omega_d;
-//Eigen::Vector3d e_R = Vee(R_d.transpose() * R - R.transpose() * R_d)/2;
-//manif::SO3Tangentd e_omega_so3(e_omega);
-//manif::SO3Tangentd e_R_so3(e_R);
-
-//cout << "e_R = " << e_R << endl;
-//cout << "R = " << R << endl;
-
-
-
-//manif::SO3Tangentd geo_screw = R.transpose() * (-k_p * e_R_so3);
-//cout << "geo_screw = " << geo_screw << endl;
-
-//manif::SE3Tangentd se3_vel_cLaw = manif::SE3Tangentd::Zero();
-//se3_vel_cLaw.ang() = geo_screw.ang();
-//manif::SE3Tangentd se3_vel_cLaw = tar_pose.rminus(se3_pos) * k_p - se3_e_omega * k_v;

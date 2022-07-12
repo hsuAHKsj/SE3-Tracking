@@ -56,7 +56,6 @@ void imu_record_pose_info()
         m.unlock();
         Sleep(0.0001);
     }
-
     return;
 }
 

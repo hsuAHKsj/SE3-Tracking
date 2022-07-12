@@ -85,7 +85,7 @@ int main()
     double delta_T = 0.04; // 2ms更新一次
 
     // 对角速度，角加速度进行约束
-    double rot_vec_bound = PI;
+    double rot_vec_bound = 0.6;
     double rot_acc_bound = 3;
 
     //////////////// 数据采集线程 /////////////////
@@ -177,7 +177,7 @@ int main()
         manif::SE3Tangentd se3_jerk = (se3_acc_claw - se3_acc_t_1) / delta_T;
 
         // 对角速度，角加速度进行约束
-        double rot_jerk_bound = 10;
+        double rot_jerk_bound = 30;
 
         //// 如果加速度过大，对整个矢量进行截断
         manif::SE3Tangentd applied_acc = se3_acc_claw;
@@ -202,11 +202,20 @@ int main()
             applied_acc = applied_acc / applied_acc.ang().norm() * rot_acc_bound;
             applied_vel = se3_vel_t_1 + applied_acc * delta_T;
         }
-        // 如果速度还过大，约束速度
-        if (applied_vel.ang().norm() > rot_vec_bound)
+        double coeffi = 1;
+        // 如果速度大于临界值，且加速度使得下一周期速度的模变大，那么这一周期计算出来的加速度的模长就要逐渐减小直到零。
+        if ((applied_vel.ang().norm() > 0.95 * rot_vec_bound) && ((applied_acc.ang() / applied_acc.ang().norm()).dot(se3_vel_t_1.ang() / se3_vel_t_1.ang().norm()) < 1))
         {
-            // 一砍这个速度有界，加速度快速变化，会导致加加速度快速变化，因此要使得速度边界处加速度趋于零
-            applied_vel = applied_vel / applied_vel.ang().norm() * rot_vec_bound;
+            if ((applied_vel.ang().norm() >= rot_vec_bound))
+            {
+                applied_vel = applied_vel / applied_vel.ang().norm() * rot_vec_bound;
+            }
+            else
+            {   // 我们将加速度抑制到0
+                double temp_coeff = 1 - ((applied_vel.ang().norm() - 0.95 * rot_vec_bound) / (0.05 * rot_vec_bound));
+                applied_acc.ang() = applied_acc.ang() * (temp_coeff <= 0 ? 0 : temp_coeff);
+                applied_vel = se3_vel_t_1 + applied_acc * delta_T;
+            }
         }
 
         // 更新机器人位置
